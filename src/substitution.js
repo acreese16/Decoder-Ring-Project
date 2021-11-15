@@ -10,7 +10,8 @@ const substitutionModule = (function () {
   let abc = "abcdefghijklmnopqrstuvwxyz";
   // using a helper function to determine if there are unique characters in the alphabet 
   function otherCharacters(input){
-    const alpha = input.split("").reduce((alphaTotal, char) => {
+    input = [...input];
+    let alpha = input.reduce((alphaTotal, char) => {
       alphaTotal[char] = true;
       return alphaTotal;
     }, {})
@@ -26,7 +27,7 @@ const substitutionModule = (function () {
     if(!otherCharacters(alphabet)) return false;
 
     // creating empty variable to hold encoded and decoded values
-    let splitString;
+    let finalResult = "";
 
     // setting input to lowercase
     input = input.toLowerCase();
@@ -37,35 +38,33 @@ const substitutionModule = (function () {
     // abc vairable (string) into an array
     abc = [...abc];
 
-
-    // if encode = false then decode the message
-    if (encode === false) {
-      // creating a string result variable for the decode
-      let decodeResult = "";
-      //  turning the input from a string into an array of individual characters
-      input = [...input];
-      // for each element in the input array, use the alphabet to decode the input
-      input.forEach((userInput) => {
-        let alphaNum = alphabet.indexOf(userInput);
-        
-        // when the character is a space then input a space otherwise decode the input
-        decodeResult += userInput === " " ? " " : abc[alphaNum];
-      });
-      return decodeResult;
-    } else {
-      let encodeResult = "";
-      abc = [...abc]; // string to array
-      // for each character in the abc variable, find the corresponding index and character for the inputted message
-      abc.forEach((character, index) => {
-        // 
-        splitString[character] = alphabet[index];
-        encodeResult[alphabet[index]] = character;
-      });
-      return encodeResult;
+    // for/in loop to iterate through the input
+    for (let character in input) {
+      // if input contains spaces
+      if (input[character] === " ") { 
+        // keep the spaces (no change)
+        finalResult += input[character];
+      };
+      //for/in loop to iterate throught the abc variable that was created to determine the indices for the letters/characters in the alphabet
+      for (let letter in abc) {
+        // if encode = true
+        if (encode === true) {
+          // if the input's character is the same as the abc variable letter 
+          if (input[character] == abc[letter]) {
+            // then use the alphabet parameter to locate the index of the letter and add it to the final result
+            finalResult += alphabet[letter];
+          }
+          // otherwise if encode = false
+        } else if (encode === false) {
+          // then if the input's character is equal to the alphabet's letter 
+          if (input[character] === alphabet[letter]) {
+            // then use the abc variable to identify the character in the decode and add it to the final result
+            finalResult += abc[letter];
+          }
+        }
+      }
     }
-
-
-
+    return finalResult;
 
   }
 
