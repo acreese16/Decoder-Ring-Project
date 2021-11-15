@@ -4,6 +4,7 @@
 // of the anonymous function on line 6
 
 /** 
+Assistance provided by 🧸 teddy
 # Problem solving tips:
 
 Keep in mind that this is a small part of the entire journey:
@@ -62,55 +63,7 @@ Keep in mind that this is a small part of the entire journey:
 
 // what's the output? input? return?
 
-const caesarModule = (function () {
-  // you can add any code you want within this function scope
-
-  //creating an alphabet to reference the encoded or decoded message
-  const alphabet = [
-    'a','b','c','d','e','f','g',
-    'h','i','j','k','l','m','n',
-    'o','p','q','r','s','t','u',
-    'v','w','x','y','z'
-  ];
-
-  // charCodeAt() - The zero-based index of the desired character. 
-  // If there is no character at the specified index, NaN is returned.
-  // Returns the Unicode value of the character at the specified location.
-
-  //creating an "alphabet boundary/limit/wrap-around" to ref our characters
-  const LIMIT = {
-    start: 'a'.charCodeAt(),
-    end: 'z'.charCodeAt(),
-  }
-
-  // by 🧸 teddy
-  function caesar(input, shift, encode = true) {
-    if (!shift) return false; 
-    if(shift < -25 || shift > 25) return false;
-    if (encode === false) {
-      shift = shift * -1; 
-    }
-    // set the inputted message to lowercase
-    input = input.toLowerCase();
-    return input.split("").reduce((accResult, char) => { // "t", "r", "e", "e"
-      const code = char.charCodeAt();
-      if(code < LIMIT.start || code > LIMIT.end) return accResult + char;
-
-      let shifted = code + shift;
-      if(shifted > LIMIT.end) {
-        shifted = LIMIT.start + (shifted - LIMIT.end - 1)
-      } else if(shifted < LIMIT.start) {
-        shifted = LIMIT.end - (LIMIT.start - shifted - 1)
-      }
-
-      return accResult + String.fromCharCode(shifted)
-    }, "");
-
-  }
-  return {
-    caesar,
-  };
-})();
+// OLD CODE -----
 
 //   function caesar(input, shift, encode = true) {
 //     // If no shift OR shift === 0 OR shift < -25 OR shift > 25 
@@ -160,5 +113,57 @@ const caesarModule = (function () {
 //     caesar,
 //   };
 // })();
+
+const caesarModule = (function () {
+  // you can add any code you want within this function scope
+
+  //creating an alphabet to reference the encoded or decoded message
+  const alphabet = [
+    'a','b','c','d','e','f','g',
+    'h','i','j','k','l','m','n',
+    'o','p','q','r','s','t','u',
+    'v','w','x','y','z'
+  ];
+
+  // charCodeAt() - The zero-based index of the desired character. 
+  // If there is no character at the specified index, NaN is returned.
+  // Returns the Unicode value of the character at the specified location.
+
+  //creating an "alphabet boundary/limit/wrap-around" to ref our characters
+  const LIMIT = {
+    start: 'a'.charCodeAt(),
+    end: 'z'.charCodeAt(),
+  }
+
+  
+  function caesar(input, shift, encode = true) {
+    if (!shift) return false; 
+    if(shift < -25 || shift > 25) return false;
+    if (encode === false) {
+      shift = shift * -1; 
+    }
+    // set the inputted message to lowercase
+    input = input.toLowerCase();
+    return input.split("").reduce((accResult, char) => { // "t", "r", "e", "e"
+      const code = char.charCodeAt();
+      if(code < LIMIT.start || code > LIMIT.end) return accResult + char;
+
+      let shifted = code + shift;
+      if(shifted > LIMIT.end) {
+        shifted = LIMIT.start + (shifted - LIMIT.end - 1)
+      } else if(shifted < LIMIT.start) {
+        shifted = LIMIT.end - (LIMIT.start - shifted - 1)
+      }
+
+      return accResult + String.fromCharCode(shifted)
+    }, "");
+
+  }
+  return {
+    caesar,
+  };
+})();
+
+
 
 module.exports = { caesar: caesarModule.caesar };
